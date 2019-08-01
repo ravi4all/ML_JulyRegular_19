@@ -55,8 +55,23 @@ def accuracy_score(actual,pred):
             count += 1
     return count/len(actual) * 100
 
-def evaluateAlgorithm():
-    pass
+def evaluateAlgorithm(dataset,epoch,alpha):
+    folds = crossValidation(dataset)
+    scores = []
+    for fold in folds:
+        train = list(folds)
+        train.remove(fold)
+        train = sum(train,[])
+        test = []
+        for row in fold:
+            rowcopy = list(row)
+            rowcopy[-1] = None
+            test.append(rowcopy)
+        prediction = logsiticRegression(train,test,epoch,alpha)
+        actual = [row[-1] for row in fold]
+        score = accuracy_score(actual, prediction)
+        scores.append(score)
+    return scores
 
 def stochasticGD(dataset,epochs,alpha):
     coef = [0] * len(dataset[0])
@@ -65,12 +80,17 @@ def stochasticGD(dataset,epochs,alpha):
             pred = predict(row,coef)
             loss = pred - row[-1]
             coef[0] = coef[0] - alpha * loss
-            for j in range(len(row)):
+            for j in range(len(row)-1):
                 coef[j+1] = coef[j+1] - alpha * loss * row[j]
     return coef
 
-def logsiticRegression():
-    pass
+def logsiticRegression(train,test,epoch,alpha):
+    coef = stochasticGD(train,epoch,alpha)
+    p = []
+    for row in test:
+        pred = predict(row,coef)
+        p.append(round(pred))
+    return p
 
 
 filename = "data.csv"
@@ -79,5 +99,7 @@ str_to_float(dataset)
 minMaxData = minMax(dataset)
 normalization(minMaxData,dataset)
 #folds = crossValidation(dataset)
-
+epoch = 1000
+alpha = 0.01
+scores = evaluateAlgorithm(dataset,epoch,alpha)
 
