@@ -1,0 +1,10 @@
+Resume Writer
+1. Build Resume using user details
+2. Recommend latest version and skills related to that technology (ML)
+3. Spell check and grammar check
+4. Job Recommendation (ML)
+5. Expected Salary according to market (ML)
+6. Search Jobs
+7. Sort salary wise or apply filter for companies
+8. Reply through email
+
