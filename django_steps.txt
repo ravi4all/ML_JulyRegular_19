@@ -1,0 +1,9 @@
+1. pip install django
+2. open cmd at any location where you want to create project
+3. django-admin startproject projectName
+4. cd projectName
+5. python manage.py startapp appname
+6. mention appname in installed_apps inside settings.py
+7. now open urls.py and import include package
+8. mention your path => path('app/',include('app.urls'))
+9. create a urls.py in app
